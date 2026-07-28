@@ -1,0 +1,99 @@
+// Standard Atom/Pulsar ui-variables, mapped onto this theme's semantic tokens
+// (styles/colors.less). UI themes are expected to ship this file so any package
+// can `@import "ui-variables"` and get theme-correct colours on both light and
+// dark — no `color: inherit` / hardcoded `rgba(127,127,127,…)` workarounds.
+//
+// The file is byte-identical in tranquil-business-dark and -light; each imports
+// its own colors.less, so the shared mapping resolves to per-theme values.
+// Contract (the full set a theme must define): tranquil-client
+// static/variables/ui-variables.less. Keep this in lockstep with that list.
+@import "./colors.less";
+
+// --- Text ---------------------------------------------------------------
+@text-color:           @text-primary;
+@text-color-subtle:    @text-muted;
+@text-color-highlight: @text-heading;
+@text-color-selected:  @text-heading;
+
+@text-color-info:      @accent;
+@text-color-success:   @green;
+@text-color-warning:   @orange;
+@text-color-error:     @red;
+
+// --- Status backgrounds -------------------------------------------------
+@background-color-info:      @accent;
+@background-color-success:   @green;
+@background-color-warning:   @orange;
+@background-color-error:     @red;
+@background-color-highlight: @hover;
+@background-color-selected:  @surface-active;
+
+@app-background-color: @sidebar-bg;
+
+// --- Base surfaces ------------------------------------------------------
+@base-background-color: @app-bg;
+@base-border-color:     @border;
+
+@pane-item-background-color: @app-bg;
+@pane-item-border-color:     @border;
+
+@input-background-color: @surface-active;
+@input-border-color:     @border-strong;
+
+@tool-panel-background-color: @sidebar-bg;
+@tool-panel-border-color:     @border-subtle;
+
+@inset-panel-background-color: @panel-bg;
+@inset-panel-border-color:     @border-subtle;
+
+@panel-heading-background-color: @panel-bg;
+@panel-heading-border-color:     @border-subtle;
+
+@overlay-background-color: @dialog-bg;
+@overlay-border-color:     @border;
+
+// --- Buttons ------------------------------------------------------------
+@button-background-color:          @surface-active;
+@button-background-color-hover:    @border-strong;
+@button-background-color-selected: @accent;
+@button-border-color:              @border-strong;
+
+// --- Tabs ---------------------------------------------------------------
+@tab-bar-background-color:    @sidebar-bg;
+@tab-bar-border-color:        @border-subtle;
+@tab-background-color:        @panel-bg;
+@tab-background-color-active: @surface-active;
+@tab-border-color:           @border-subtle;
+
+// --- Tree view ----------------------------------------------------------
+@tree-view-background-color: @sidebar-bg;
+@tree-view-border-color:     @border-subtle;
+
+// --- Scrollbars ---------------------------------------------------------
+@scrollbar-color:            @border-strong;
+@scrollbar-background-color: transparent;
+
+// --- Site colours (used by a few packages for coloured accents) ---------
+@ui-site-color-1: @green;
+@ui-site-color-2: @accent;
+@ui-site-color-3: @orange;
+@ui-site-color-4: @purple;
+@ui-site-color-5: @yellow;
+
+// --- Sizes --------------------------------------------------------------
+@font-size:       13px;
+@input-font-size: 14px;
+
+@disclosure-arrow-size: 12px;
+
+@component-padding:       10px;
+@component-icon-padding:  5px;
+@component-icon-size:     16px;
+@component-line-height:   25px;
+@component-border-radius: 6px;
+
+@tab-height: 30px;
+
+// --- Other --------------------------------------------------------------
+@font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+@use-custom-controls: true; // matches the previous fallback; keeps native-looking controls

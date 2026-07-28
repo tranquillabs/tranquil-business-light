@@ -1,0 +1,84 @@
+// Drive the built-in terminal (pulsar-edit/terminal) from the business palette
+// so it follows the light/dark UI theme instead of the syntax theme.
+//
+// The terminal's default "Stylesheet" color mode reads these :root custom
+// properties via getComputedStyle(document.documentElement); by default they are
+// emitted from the active *syntax* theme, which is why a light UI theme still
+// shows a dark terminal. We override them here. The terminal re-applies its
+// theme on atom.themes.onDidChangeActiveThemes / atom.styles.onDidAddStyleElement,
+// so switching business-light <-> -dark reflows open terminals live.
+//
+// :root (document root, not @{theme-scope}) is required because the terminal
+// reads from documentElement. No !important needed: theme stylesheets load at a
+// higher priority than package stylesheets (ThemePackage priority 1 vs Package
+// 0), so our :root wins over the terminal package's own :root defaults. This
+// partial only loads while the theme is active.
+
+@import 'colors.less';
+
+:root {
+  --terminal-background-color: @app-bg;
+  --terminal-text-color: @text-primary;
+  --terminal-selection-background-color: @selected;
+  --terminal-selection-text-color: @text-primary;
+  --terminal-cursor-color: @accent;
+
+  --terminal-scrollbar-color: @border-strong;
+  --terminal-result-marker-color: @accent;
+  --terminal-result-marker-color-selected: @accent-hover;
+
+  // ANSI — chromatic slots use the business accent palette (already tuned per
+  // theme to read on its background); grayscale anchors come from colors.less.
+  --terminal-color-black:   @ansi-black;
+  --terminal-color-red:     @red;
+  --terminal-color-green:   @green;
+  --terminal-color-yellow:  @yellow;
+  --terminal-color-blue:    @accent;
+  --terminal-color-magenta: @purple;
+  --terminal-color-cyan:    @teal;
+  --terminal-color-white:   @ansi-white;
+
+  --terminal-color-bright-black:   @ansi-bright-black;
+  --terminal-color-bright-red:     @red;
+  --terminal-color-bright-green:   @green;
+  --terminal-color-bright-yellow:  @yellow;
+  --terminal-color-bright-blue:    @accent-hover;
+  --terminal-color-bright-magenta: @purple;
+  --terminal-color-bright-cyan:    @teal;
+  --terminal-color-bright-white:   @ansi-bright-white;
+}
+
+// Themed native scrollbar on the terminal viewport, to match the rest of the UI.
+@{theme-scope} {
+  .terminal .xterm-viewport {
+    .themed-scrollbar();
+  }
+
+  // Terminal find palette (cmd-f in the terminal). The package paints its bar
+  // with @tool-panel-background-color, which resolves to default-Atom gray (this
+  // theme doesn't remap @ui-variables). Repaint it from the business palette.
+  // Theme stylesheets outrank package ones, so no !important needed.
+  .terminal-find-palette {
+    background-color: @panel-bg;
+    color: @text-primary;
+    border-top: 1px solid @border;
+
+    .terminal-find-palette__label {
+      color: @text-secondary;
+    }
+    .terminal-find-palette__result-count {
+      color: @text-muted;
+    }
+    .terminal-find-palette__btn-close {
+      color: @text-secondary;
+
+      &:hover {
+        color: @text-primary;
+      }
+    }
+    atom-text-editor[mini] {
+      border: 1px solid @border-strong;
+      border-radius: 6px;
+    }
+  }
+}

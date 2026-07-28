@@ -1,0 +1,35 @@
+@{theme-scope} {
+  .tool-panel.panel-bottom {
+    background: transparent;
+  }
+
+  .project-find {
+    background: @panel-bg;
+    border-radius: 0.5rem;
+    margin: 2px;
+  }
+
+  .editor.mini {
+    background: @sidebar-bg;
+    border-radius: 0.5rem;
+  }
+
+  .find-and-replace .options-label .options,
+  .preview-pane .options-label .options,
+  .project-find .options-label .options {
+    color: @text-primary !important;
+  }
+
+  atom-panel-container atom-panel .project-find .header .close-button .icon {
+    color: @text-primary !important;
+  }
+
+  atom-panel-container atom-panel .project-find .header .options-label .btn-group-options .btn.option-regex,
+  atom-panel-container atom-panel .project-find .header .options-label .btn-group-options .btn.option-case-sensitive,
+  atom-panel-container atom-panel .project-find .header .options-label .btn-group-options .btn.option-whole-word {
+    border: none;
+    background: @sidebar-bg !important;
+    border-radius: 0.25rem;
+    margin: 0 0.25rem;
+  }
+}

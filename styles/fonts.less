@@ -1,0 +1,17 @@
+// Bundled Inter (variable, latin subset), served over the atom:// protocol.
+//
+// Why atom:// and not a relative path or data-URI:
+//  - Theme stylesheets are injected into the app's main document, whose CSP is
+//    `default-src * atom://*` with NO font-src and NO data: for fonts — so a
+//    data-URI @font-face is blocked, and a relative url() would resolve against
+//    the app static/ base, not this package.
+//  - atom:// IS allowed by the CSP, and the atom protocol handler resolves
+//    `atom://<pkg>/...` from ~/.tranquil/dev/packages (dev) and node_modules
+//    (production), both of which reach this package's resources/fonts/ file.
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("atom://tranquil-business-light/resources/fonts/Inter-Variable-latin.woff2") format("woff2");
+}

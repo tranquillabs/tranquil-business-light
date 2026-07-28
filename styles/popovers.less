@@ -1,0 +1,102 @@
+// Hovers (tooltips) + popovers (autocomplete, select-list popovers) restyled to
+// the reference's popover surface: a @popover-bg card with a border and a soft
+// shadow, instead of the inverted-dark tooltip / bright-blue default.
+
+@import 'colors.less';
+
+// --- Tooltips (hovers) ---
+// Tooltips attach to <body> (src/tooltip.js, container: 'body'), OUTSIDE
+// atom-workspace where the `@{theme-scope}` class lives — so these must be
+// GLOBAL, not theme-scoped, or they never match. Prefixed with `body ` to
+// out-specify one-dark-ui's global `.tooltip …` rules regardless of load order.
+// They still only load while the business theme is active.
+body .tooltip .tooltip-inner {
+  background: @popover-bg;
+  color: @text-primary;
+  border: 1px solid @border-strong;
+  border-radius: 6px;
+  box-shadow: @shadow-popover;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+body .tooltip .keystroke {
+  color: @accent;
+  background: @surface-active;
+}
+
+// Arrows follow the popover fill.
+body .tooltip.top .tooltip-arrow,
+body .tooltip.top-left .tooltip-arrow,
+body .tooltip.top-right .tooltip-arrow { border-top-color: @popover-bg; }
+body .tooltip.right .tooltip-arrow { border-right-color: @popover-bg; }
+body .tooltip.left .tooltip-arrow { border-left-color: @popover-bg; }
+body .tooltip.bottom .tooltip-arrow,
+body .tooltip.bottom-left .tooltip-arrow,
+body .tooltip.bottom-right .tooltip-arrow { border-bottom-color: @popover-bg; }
+
+// --- URL-bar search suggestions (jQuery UI autocomplete) ---
+// tranquil-browser's URL bar builds a jQuery UI autocomplete menu appended to
+// <body> (outside atom-workspace), like tooltips — so these are GLOBAL, not
+// theme-scoped, and out-specify the browser package's hardcoded light styles via
+// a `body ` prefix. They only load while the business theme is active.
+body .ui-autocomplete {
+  background-color: @popover-bg;
+  border: 1px solid @border-strong;
+  box-shadow: @shadow-popover;
+}
+
+body .ui-menu-item > a.ui-corner-all {
+  color: @text-primary;
+}
+
+// Focused/hovered suggestion — matches the suggestion-list selection style.
+body .ui-menu-item > a.ui-state-focus {
+  background: @selected !important; // package sets #eeeeee !important
+  color: @accent;
+}
+
+// --- Autocomplete + generic popover lists ---
+// These render inside the workspace (editor overlays / modal panels), so the
+// theme scope reaches them.
+@{theme-scope} {
+  autocomplete-suggestion-list.select-list.popover-list,
+  .select-list.popover-list {
+    background: @popover-bg;
+    color: @text-primary;
+    border: 1px solid @border-strong;
+    border-radius: 8px;
+    box-shadow: @shadow-popover;
+    overflow: hidden;
+
+    .suggestion-list-scroller { background: transparent; }
+
+    ol.list-group {
+      background: transparent;
+
+      li {
+        color: @text-primary;
+        border: none;
+
+        &.selected,
+        &.selected.marked {
+          background: @selected;
+          color: @accent;
+
+          .completion-label,
+          .right-label,
+          .word,
+          .character-match { color: @accent; }
+        }
+      }
+    }
+
+    // Documentation panel attached to a suggestion.
+    .suggestion-description {
+      background: @surface-active;
+      color: @text-secondary;
+      border-top: 1px solid @border;
+    }
+  }
+}

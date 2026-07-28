@@ -1,0 +1,678 @@
+// Settings-view (the Pulsar settings pane) restyled with Tranquil business
+// tokens. Everything is scoped under @{theme-scope} and targets the classes
+// settings-view emits (see the core `settings-view` / `settings-panel` markup).
+// Because our own "Tranquil" tab reuses core's SettingsPanel, styling this
+// surface also styles the Tranquil settings tab — no bespoke CSS for it.
+//
+// Values come from colors.less; the light theme ships an identical copy of this
+// file and differs only through those tokens. Theme sheets already win over the
+// core settings-view package at equal specificity (priority), so !important is
+// kept ONLY where a core rule is genuinely more specific — mainly the control
+// rendering that fights core at the element level (mini-editor opacity/border,
+// checkbox/radio appearance + pseudo-mark suppression, .btn, selects). Plain
+// colour/background overrides on scoped selectors don't need it.
+
+@{theme-scope} {
+  // ── Panels & scroll containers ─────────────────────────────────────────────
+  .panels-item {
+    background: @panel-bg;
+  }
+
+  .config-menu,
+  .panels {
+    .themed-scrollbar();
+  }
+
+  .panels {
+    background: @panel-bg;
+    font-size: 13px;
+  }
+
+  // ── Left nav ────────────────────────────────────────────────────────────────
+  .config-menu {
+    background: @panel-bg;
+    color: @text-primary;
+    border-right: 1px solid @sidebar-bg;
+  }
+
+  .config-menu .icon {
+    color: @text-secondary;
+  }
+
+  .settings-view .config-menu {
+    font-size: 13px;
+  }
+
+  .settings-view .config-menu .nav > li > a {
+    border-radius: 0.35rem;
+    color: @text-secondary;
+  }
+
+  .settings-view .config-menu .nav > li:hover > a {
+    background: @hover;
+    color: @text-primary;
+  }
+
+  .settings-view .config-menu .nav > li.active > a {
+    color: @text-primary;
+  }
+
+  .config-menu li.active {
+    background: @sidebar-bg;
+  }
+
+  .settings-view .config-menu .nav > li.active > a .icon,
+  .settings-view .config-menu .nav > li:hover > a .icon {
+    color: @accent;
+  }
+
+  // ── Section / sub-section headings ──────────────────────────────────────────
+  .section-heading,
+  .sub-section-heading,
+  .text {
+    color: @text-primary;
+    background: transparent;
+  }
+
+  .section-heading,
+  .sub-section-heading {
+    margin-bottom: 1rem;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  .section-heading.icon::before,
+  .sub-section-heading.icon::before {
+    color: @text-muted;
+  }
+
+  // The SettingsPanel heading octicon pushes the title ~30px right of the field
+  // content below it, so the title looks misaligned with its label/input. Drop the
+  // icon on config-panel headings (Core/Editor/Tranquil) — the nav tab already
+  // carries an icon — so the title shares one left edge with the controls.
+  .settings-view .settings-panel > .section-container > .section-heading.icon {
+    padding-left: 0;
+
+    &::before {
+      content: none;
+    }
+  }
+
+  .settings-view .sub-section .sub-section-heading {
+    background-color: @sidebar-bg;
+    color: @text-primary;
+    padding: 0.5rem 1.2rem;
+    border-radius: 0.5rem;
+  }
+
+  .settings-view .sub-section .sub-section-body {
+    border-left: none;
+  }
+
+  // ── Badges ──────────────────────────────────────────────────────────────────
+  .badge {
+    color: @text-primary;
+    background: @surface-active;
+  }
+
+  .section-heading-count .badge {
+    color: inherit;
+    background: @sidebar-bg;
+  }
+
+  // ── Setting rows (label + description + control) ─────────────────────────────
+  // Matches the design system's .form-field (main-view.html): a compact label,
+  // a muted hint, then the input with a small 6px gap — not a bold, spread-out
+  // stack. Higher specificity (.settings-view) overrides core's 1.2em title.
+  // main-view.html spec: .form-grid gap 18px between fields; .form-field gap 6px
+  // label→input; .form-label 12px/500; .form-hint 11px muted.
+  .control-group {
+    margin: 0 0 18px 0;
+  }
+
+  .settings-view .control-label {
+    margin-bottom: 0;
+  }
+
+  .settings-view .setting-title,
+  .settings-view .control-label .setting-title {
+    color: @text-primary;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    margin-bottom: 2px;
+  }
+
+  .settings-view .setting-description {
+    color: @text-muted;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.45;
+    margin: 0 0 6px 0; // .form-field gap (label → input)
+  }
+
+  code {
+    color: @accent;
+  }
+
+  // ── Text / number inputs (real mini editors) ────────────────────────────────
+  // The config text/number fields — including "Toast Duration" — render as
+  // <atom-text-editor mini>. Style the editor host, not an <input>. Matches the
+  // design system's .form-input (main-view.html / the find bar): surface-input
+  // fill, strong border, 6px radius, accent focus ring.
+  // Keep the editor-container flush-left so the input's left edge lines up with
+  // its label (core zeroes this, but be explicit).
+  .settings-view .control-group .editor-container {
+    margin: 0;
+    padding: 0;
+  }
+
+  .settings-view atom-text-editor[mini] {
+    // Core fades mini editors to opacity .75 (and back to 1 on focus) — force
+    // solid so the field reads like a real .form-input, not a washed-out box.
+    opacity: 1 !important;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 32em;
+    margin: 0;
+    background: @app-bg !important;
+    color: @text-primary;
+    border: 1px solid @border-strong !important;
+    border-radius: 6px;
+    min-height: 34px;
+    padding: 7px 10px; // matches main-view.html .form-input (value padded inside the box)
+    // Match .form-input: UI font at 13px. Mini editors default to the monospace
+    // editor font, which looks too small/narrow at the same px.
+    font-family: inherit !important;
+    font-size: 13px !important;
+    line-height: 1.4;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .settings-view atom-text-editor[mini].is-focused {
+    opacity: 1 !important;
+    border-color: @accent !important;
+    box-shadow: 0 0 0 3px fade(@accent, 16%);
+  }
+
+  .settings-view atom-text-editor[mini] .cursor {
+    border-color: @accent;
+  }
+
+  .settings-view atom-text-editor[mini] .selection .region {
+    background: fade(@accent, 22%);
+  }
+
+  // ── Tranquil tab: ONE consistent form layout for every setting ───────────────
+  // Every setting stacks vertically — label, then a controls row (the input plus
+  // any trailing buttons), then the description — all sharing one left edge, and
+  // every input/select the same width so their left AND right edges line up.
+  // Settings added over time inherit this for free: the panel factory normalizes
+  // each control-group to label → controls → description (see index.js), and the
+  // `order` values below fix the vertical order regardless of core's per-type
+  // markup. Matches main-view.html's .form-field spec: 12px/@text-secondary label,
+  // 6px gap, input, 6px, 11px/@text-muted hint; 18px between fields.
+  .settings-view .tranquil-settings {
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 0 0 18px 0; // .form-grid row gap
+    }
+
+    // Label block: heading title with the description directly beneath it, then
+    // an 8px gap down to the control.
+    .control-label {
+      order: 0;
+      width: 100%;
+      margin: 0 0 8px 0; // label block → control gap
+    }
+
+    .setting-title {
+      // More specific than the generic `.settings-view .setting-title` above, so
+      // it wins without !important. Bigger/bolder than the muted hint below it.
+      color: @text-primary;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.3;
+      margin: 0 0 3px 0; // title → description gap
+    }
+
+    // The control row: the input, plus any trailing buttons (e.g. "Test").
+    .controls {
+      order: 1;
+      width: 100%;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    // Every text/number/select field shares one 22em box, left-aligned, so all
+    // fields line up on both edges. Select colour/border/chevron come from the
+    // shared `.settings-view select.form-control` rule below.
+    .tranquil-number-input,
+    select.form-control {
+      flex: none;
+      box-sizing: border-box;
+      width: 22em;
+      max-width: 100%;
+      height: 34px;
+      margin: 0;
+      padding: 7px 10px;
+      font-family: inherit;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    // box-sizing:border-box keeps the width at 22em, so the extra right padding
+    // for the chevron doesn't shift the field's right edge.
+    select.form-control {
+      padding-right: 30px;
+    }
+
+    // Native number input (integer + up/down steppers), styled as .form-input.
+    .tranquil-number-input {
+      color: @text-primary;
+      background: @app-bg;
+      border: 1px solid @border-strong;
+      border-radius: 6px;
+      outline: none;
+      color-scheme: @color-scheme; // render the native up/down steppers for the theme
+      transition: border-color 0.12s ease, box-shadow 0.12s ease;
+
+      &:focus {
+        border-color: @accent;
+        box-shadow: 0 0 0 3px fade(@accent, 16%);
+      }
+
+      &::-webkit-inner-spin-button {
+        opacity: 1; // keep the increment/decrement steppers always visible
+      }
+    }
+
+    // Trailing action buttons (e.g. "Test") match the input height.
+    .tranquil-toast-test {
+      flex: none;
+      display: inline-flex;
+      align-items: center; // vertically center the label
+      justify-content: center;
+      min-height: 34px; // align with the input
+      padding: 0 14px; // .btn horizontal padding
+      line-height: 1;
+    }
+
+    // Description reads as a muted hint directly under the heading (it lives
+    // inside the label, so no `order` is needed).
+    .setting-description {
+      color: @text-muted;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    // Editable Browser User-Agent combobox (index.js builds it): a .form-input
+    // field with a chevron toggle and an absolutely-positioned preset listbox.
+    // Wrapper takes the shared 22em field width; the input fills it, the list
+    // overlays below.
+    .tq-ua-combobox {
+      flex: none;
+      box-sizing: border-box;
+      position: relative;
+      width: 22em;
+      max-width: 100%;
+
+      .form-input {
+        box-sizing: border-box;
+        width: 100%;
+        height: 34px;
+        margin: 0;
+        padding: 7px 30px 7px 10px; // right padding clears the chevron
+        font-family: inherit;
+        font-size: 13px;
+        line-height: 1.4;
+        color: @text-primary;
+        background: @app-bg;
+        border: 1px solid @border-strong;
+        border-radius: 6px;
+        outline: none;
+        transition: border-color 0.12s ease, box-shadow 0.12s ease;
+
+        &:focus {
+          border-color: @accent;
+          box-shadow: 0 0 0 3px fade(@accent, 16%);
+        }
+      }
+
+      // Chevron toggle, sitting inside the field's right edge.
+      .tq-ua-toggle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: @text-secondary;
+        font-size: 11px;
+        line-height: 1;
+        cursor: pointer;
+
+        &:hover {
+          color: @text-primary;
+        }
+      }
+
+      // Preset listbox overlay, directly under the field.
+      .tq-ua-presets {
+        position: absolute;
+        z-index: 10;
+        top: ~"calc(100% + 4px)";
+        left: 0;
+        width: 100%;
+        margin: 0;
+        padding: 4px;
+        list-style: none;
+        background: @app-bg;
+        border: 1px solid @border-strong;
+        border-radius: 6px;
+        box-shadow: 0 6px 20px fade(#000, 30%);
+
+        &[hidden] {
+          display: none;
+        }
+
+        li {
+          padding: 6px 8px;
+          border-radius: 4px;
+          font-size: 13px;
+          color: @text-primary;
+          cursor: pointer;
+
+          &:hover {
+            background: fade(@accent, 16%);
+          }
+        }
+      }
+    }
+  }
+
+  // ── Select dropdowns ────────────────────────────────────────────────────────
+  // Force appearance:none so the box renders flat and fills its full width. A
+  // native macOS <select> insets its control inside the CSS box (ignoring our
+  // border-radius), so its right edge wouldn't line up with the text inputs.
+  // With appearance:none the native chevron disappears, so draw our own — stroke
+  // @text-secondary, "#" URL-encoded to %23, mirroring the checkbox SVG below.
+  @tq-select-chevron-color: replace("@{text-secondary}", "#", "%23");
+  @tq-select-chevron: ~"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='@{tq-select-chevron-color}' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M4 6l4 4 4-4'/%3E%3C/svg%3E";
+
+  .settings-view select.form-control {
+    -webkit-appearance: none;
+    appearance: none;
+    color: @text-primary !important;
+    background-color: @app-bg !important;
+    background-image: url("@{tq-select-chevron}") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 10px center !important;
+    background-size: 14px 14px !important;
+    padding-right: 30px; // clear the chevron
+    border: 1px solid @border-strong !important;
+    border-radius: 6px;
+    accent-color: @accent;
+
+    &:focus {
+      border-color: @accent !important;
+      box-shadow: 0 0 0 3px fade(@accent, 16%);
+    }
+  }
+
+  // Base .form-control (kept for the package cards' inputs etc.)
+  .form-control,
+  .package-card {
+    color: @text-primary !important;
+    background: @sidebar-bg !important;
+    border: none !important;
+  }
+
+  // ── Checkboxes & radios ─────────────────────────────────────────────────────
+  // The design system (main-view.html .form-check) uses the NATIVE control tinted
+  // with accent-color, not a hand-drawn box. Restore native rendering (one-dark-ui
+  // forces appearance:none) and tint it. IMPORTANT: keep core settings-view's
+  // `margin: 0 .75em 0 -2.25em` — it pulls the box into the `.checkbox`
+  // padding-left gutter; overriding it drops the box onto the label text.
+  // Checkmark drawn as an inline SVG data-URI. Stroke color is @text-inverse
+  // (black on dark theme, white on light), with its "#" URL-encoded to %23.
+  @tq-check-color: replace("@{text-inverse}", "#", "%23");
+  @tq-check-svg: ~"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='@{tq-check-color}' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' d='M3.5 8.3 L6.4 11 L12.5 4.8'/%3E%3C/svg%3E";
+
+  // Scope to `.checkbox` for specificity over core's `input[type=checkbox]`, and
+  // KEEP core's `margin: 0 .75em 0 -2.25em` (pulls the box into the .checkbox
+  // padding-left:2.25em gutter). vertical-align:middle on BOTH the box and the
+  // title centers the box against the (1.2em) title text.
+  // Draw the box to match main-view.html exactly: @accent fill with a BLACK
+  // (@text-inverse) check. Native accent-color auto-picks a white check here and
+  // CSS can't override it, so we render the checkmark ourselves.
+  .settings-view .checkbox input[type="checkbox"] {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    width: 16px;
+    height: 16px;
+    margin: 0 0.75em 0 -2.25em;
+    vertical-align: middle;
+    position: relative;
+    top: 1px; // optical-center the 16px box against the 1.2em title
+    background: @surface-active;
+    border: 1px solid @border-strong;
+    border-radius: 3px;
+    cursor: pointer;
+
+    // Core/one-dark-ui paints its own checkmark via ::before — hide it so it
+    // doesn't combine with our drawn check into a "hammer" shape.
+    &::before {
+      display: none !important;
+      content: none !important;
+    }
+
+    // <input> doesn't reliably render ::before/::after in Chromium, so the check
+    // is drawn as a background-image SVG (backgrounds DO paint on inputs). Stroke
+    // color is @text-inverse (black on dark theme, white on light), URL-encoded.
+    &:checked {
+      background-color: @accent;
+      border-color: @accent;
+      background-image: url("@{tq-check-svg}");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 12px 12px;
+
+      // Belt-and-suspenders: suppress any foreign pseudo mark.
+      &::before,
+      &::after {
+        display: none !important;
+        content: none !important;
+      }
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px fade(@accent, 35%);
+    }
+  }
+
+  .settings-view .checkbox .setting-title {
+    vertical-align: middle;
+  }
+
+  .settings-view input[type="radio"],
+  .settings-view input[type="radio"].input-radio {
+    -webkit-appearance: radio !important;
+    appearance: auto !important;
+    vertical-align: middle;
+    accent-color: @accent;
+    cursor: pointer;
+  }
+
+  .settings-view .input-radio-group .input-label {
+    vertical-align: middle;
+  }
+
+  .settings-view .input-label {
+    color: @text-secondary;
+  }
+
+  // ── Color inputs ────────────────────────────────────────────────────────────
+  .settings-view input[type="color"] {
+    background: @surface-active;
+    border: 1px solid @border-strong;
+    border-radius: 6px;
+
+    &::-webkit-color-swatch-wrapper {
+      padding: 2px;
+    }
+
+    &::-webkit-color-swatch {
+      border: 1px solid @border-strong;
+      border-radius: 3px;
+    }
+  }
+
+  // ── Buttons ─────────────────────────────────────────────────────────────────
+  // Matches the design system .btn / .btn-secondary (main-view.html): 6px radius,
+  // medium weight, strong border, surface-button fill.
+  .settings-view .btn,
+  .settings-view .button-area .btn {
+    background: @surface-active !important;
+    color: @text-primary !important;
+    border: 1px solid @border-strong !important;
+    border-radius: 6px;
+    font-weight: 400;
+    box-shadow: none;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+
+    &:hover {
+      background: @hover !important;
+    }
+
+    &:active {
+      background: @selected !important;
+    }
+  }
+
+  // Primary / install / update actions use the accent fill (.btn-primary).
+  .settings-view .btn-primary,
+  .settings-view .btn-info,
+  .settings-view .update-all-button,
+  .settings-view .btn.selected {
+    background: @accent !important;
+    color: @text-inverse !important;
+    border-color: @accent !important;
+
+    &:hover {
+      background: @accent-hover !important;
+      border-color: @accent-hover !important;
+    }
+  }
+
+  // Grouped buttons read as one control.
+  .settings-view .btn-group > .btn {
+    border-radius: 0;
+
+    &:first-child {
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+  }
+
+  // ── Cards & package detail ──────────────────────────────────────────────────
+  .package-card,
+  .package-card:hover {
+    background: @sidebar-bg !important;
+  }
+
+  .package-name,
+  .settings-view .package-card .package-name,
+  .package-card a {
+    color: @text-primary !important;
+  }
+
+  .settings-view .package-detail .breadcrumb {
+    background: transparent;
+
+    > li > a {
+      color: @text-secondary;
+    }
+
+    > li.active {
+      color: @text-primary;
+    }
+  }
+
+  // ── Tables (config + keybindings) ───────────────────────────────────────────
+  .table > thead > tr > th,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > tbody > tr > td,
+  .table > tfoot > tr > td {
+    border-top: none;
+    border-bottom: none;
+  }
+
+  .settings-view .keybinding-panel .is-user td {
+    background: fade(@accent, 10%);
+    color: @text-primary;
+  }
+
+  // ── Alerts / status / errors ────────────────────────────────────────────────
+  .settings-view .alert {
+    border: 1px solid @border;
+    border-radius: 6px;
+    color: @text-primary;
+  }
+
+  .settings-view .alert-info {
+    background: @surface-active;
+  }
+
+  .settings-view .alert-success {
+    background: fade(@green, 14%);
+    border-color: fade(@green, 40%);
+  }
+
+  .settings-view .alert-warning {
+    background: fade(@orange, 14%);
+    border-color: fade(@orange, 40%);
+  }
+
+  .settings-view .alert-danger,
+  .settings-view .error-message {
+    background: fade(@red, 14%);
+    border-color: fade(@red, 40%);
+  }
+
+  // ── Search results ──────────────────────────────────────────────────────────
+  .settings-view .search-result {
+    background: @sidebar-bg;
+    border: none;
+  }
+
+  .settings-view .search-result .search-name,
+  .settings-view .search-result .search-package-name {
+    color: @text-primary;
+  }
+
+  .settings-view .search-result .search-description {
+    color: @text-primary;
+    opacity: 0.5;
+  }
+}

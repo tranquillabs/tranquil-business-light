@@ -1,0 +1,202 @@
+@import 'colors.less';
+
+// --- Global chrome (intentionally unscoped, mirrors the existing themes) ---
+atom-workspace {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  // `auto` = subpixel antialiasing, which renders Inter with fuller/heavier strokes on
+  // non-retina (1x) displays. `antialiased` (grayscale) looks crisp at 2x but thin at 1x,
+  // which reads as "narrow". auto is a safe universal choice (2x still gets grayscale).
+  -webkit-font-smoothing: auto;
+}
+
+// Low-specificity default text color so syntax tokens (class selectors) still win.
+* {
+  color: @text-primary;
+}
+
+.workspace {
+  background-color: @sidebar-bg !important;
+}
+
+.item-views {
+  border-radius: 0 0.5rem 0.5rem 0.5rem;
+}
+
+// --- Theme-scoped rules ---
+@{theme-scope} {
+  .atom-dock-inner {
+    border: none !important;
+  }
+
+  .atom-dock-mask {
+    background: @sidebar-bg !important;
+  }
+
+  .atom-dock-content-wrapper {
+    background-color: @sidebar-bg !important;
+    padding: 1px 0 1px 2px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    &.bottom {
+      padding-top: 1px;
+
+      .atom-dock-resize-handle {
+        display: none;
+      }
+    }
+  }
+
+  .atom-dock-toggle-button-inner {
+    background-color: @sidebar-bg !important;
+    border: none !important;
+  }
+
+  atom-panel-container.bottom-dock-resize-hover {
+    cursor: row-resize;
+
+    .atom-dock-content-wrapper.bottom::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: @hover;
+      z-index: 12;
+    }
+  }
+
+  atom-panel-container.left-dock-resize-hover {
+    cursor: col-resize;
+
+    .atom-dock-content-wrapper.left::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 8px;
+      background: @hover;
+      z-index: 12;
+    }
+  }
+
+  atom-panel-container.right-dock-resize-hover {
+    cursor: col-resize;
+
+    .atom-dock-content-wrapper.right::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 8px;
+      background: @hover;
+      z-index: 12;
+    }
+  }
+
+  .atom-dock-content-wrapper.left .atom-dock-resize-handle,
+  .atom-dock-content-wrapper.right .atom-dock-resize-handle {
+    display: none;
+  }
+
+  .atom-dock-resize-handle {
+    width: 1px !important;
+  }
+
+  // --- Panes ---
+  .horizontal {
+    gap: 1px;
+  }
+
+  .vertical {
+    gap: 1px;
+  }
+
+  .pane,
+  .panes,
+  .horizontal {
+    border: none !important;
+    background-color: transparent !important;
+  }
+
+  .panes {
+    background-color: transparent !important;
+  }
+
+  .pane-row {
+    background: @sidebar-bg;
+  }
+
+  .pane {
+    padding: 1px;
+    background-color: @sidebar-bg !important;
+  }
+
+  // Right/bottom dock panes get the panel surface (matching the tree-view in the
+  // left dock) so an *empty* pane there reads as a distinct panel rather than the
+  // recessed workspace color an empty center pane shows. Items paint their own
+  // background on top, so this only shows through where the pane is uncovered.
+  .atom-dock-content-wrapper.right .pane,
+  .atom-dock-content-wrapper.bottom .pane {
+    background-color: @panel-bg !important;
+  }
+
+  // --- Buttons ---
+  // No !important: theme sheets already win over packages at equal specificity
+  // (priority), so generic buttons still get this background, while a package
+  // that wants a different button look can override with normal specificity
+  // (a class or two) instead of fighting !important.
+  button {
+    background: @surface-active;
+    border-radius: 0.35rem;
+  }
+
+  button:hover {
+    background: @hover;
+  }
+
+  // --- Modal / command palette list ---
+  .modal .overlay {
+    color: inherit !important;
+    background: @sidebar-bg !important;
+    top: 50% !important;
+  }
+
+  .character-match {
+    color: @accent !important;
+  }
+
+  .model .list-group,
+  .modal .list-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .modal .list-group li {
+    padding: 0 4px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  .modal .list-group li.selected {
+    background: @panel-bg !important;
+  }
+
+  .section {
+    border-top: none !important;
+  }
+
+  // --- Scrollbars ---
+  .vertical-scrollbar,
+  .horizontal-scrollbar {
+    display: none;
+  }
+
+  // Tooltips (hovers) are themed in popovers.less.
+}

@@ -1,0 +1,58 @@
+// Tabs — active tab is the raised surface; inactive tabs read as the content
+// panel surface. Leaves room on the right of the band for custom pane controls
+// (added later in Phase B).
+
+@{theme-scope} {
+  .tab-bar {
+    background: @sidebar-bg;
+    box-shadow: none;
+    gap: 4px !important;
+  }
+
+  .tab {
+    padding: 8px 12px;
+    background: @panel-bg !important;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  .tab.active {
+    background: @surface-active !important;
+  }
+
+  .tab.active:not([data-type='TreeView']) {
+    background: @surface-active !important;
+  }
+
+  // Drag & drop: show the tab being dragged as "in flight".
+  .tab.is-dragging {
+    opacity: 0.5;
+    box-shadow: inset 0 0 0 1px @accent;
+  }
+
+  .tab .title {
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  .tab.active .title {
+    font-weight: 400;
+  }
+
+  .tab .close-icon {
+    width: 16px !important;
+    height: 16px !important;
+    top: 50% !important;
+    right: 4px !important;
+  }
+
+  .close-icon {
+    transform: translateY(-50%) scale(0.2);
+    opacity: 0;
+    transition: all 0.2s ease-out;
+  }
+
+  .tab:hover .close-icon {
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
+  }
+}

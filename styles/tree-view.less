@@ -1,0 +1,153 @@
+// Tree-view (left nav) restyled to read like the reference's sectioned navigation:
+// dividers between top-level roots only, muted section-label headers, and a
+// rounded accent-tinted pill for the selected entry.
+
+@{theme-scope} {
+  .tree-view {
+    background-color: @panel-bg;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    border-radius: 0 0.5rem 0.5rem 0.5rem;
+  }
+
+  // --- Scrollbar: themed to match the reference mockups (thin, rounded thumb) ---
+  .tree-view,
+  .tree-view-scroller {
+    .themed-scrollbar();
+  }
+
+  .tree-view .tree-view-root {
+    padding-right: 0;
+  }
+
+  // --- Section dividers: between top-level entries (folders/files) under each
+  // root, plus between multiple project roots. Nested entries are NOT bordered. ---
+  .tree-view .project-root > .entries > .entry {
+    border-bottom: 1px solid @border;
+  }
+
+  .tree-view .project-root > .entries > .entry:last-child {
+    border-bottom: none;
+  }
+
+  .tree-view .tree-view-root > .project-root {
+    border-bottom: 1px solid @border;
+  }
+
+  .tree-view .tree-view-root > .project-root:last-child {
+    border-bottom: none;
+  }
+
+  // Breathing room so each top-level section reads as a group.
+  .tree-view .project-root > .entries > .entry {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  // --- Root header reads as a muted section label (FAVORITES / TYPES style) ---
+  .tree-view .project-root > .project-root-header .name {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: @text-muted;
+  }
+
+  // --- Rows: match the reference nav item — 13px medium, 6px/12px padding, r4 ---
+  .tree-view .list-tree .directory > .header,
+  .tree-view .list-tree .file {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 4px;
+  }
+
+  .tree-view .list-item .name {
+    font-weight: 400;
+  }
+
+  .tree-view .list-item .name.icon::before {
+    margin-right: 8px;
+  }
+
+  // --- Hover ---
+  .tree-view .entry:hover > .header,
+  .tree-view .list-tree .file:hover {
+    background: @hover;
+  }
+
+  // --- Selected: accent-tinted pill with accent-colored label (reference active) ---
+  .tree-view .list-tree .selected::before {
+    background: transparent;
+  }
+
+  .tree-view .entry.selected > .header,
+  .tree-view .file.selected {
+    background: fade(@accent, 10%);
+    border-radius: 4px;
+  }
+
+  // A file's pill sits on its <li>, which carries the row's indent padding
+  // (17px = 12px disclosure arrow + 5px), so the highlight has breathing room to
+  // the left of the icon. A folder's pill sits on the inner .header, which starts
+  // after that indent, jamming the disclosure arrow against the pill edge. Extend
+  // the folder background (selected AND hover) left by one indent — negative margin
+  // + equal padding moves only the background, not the arrow/name — to match the
+  // file's margin.
+  .tree-view .entry.directory.selected > .header,
+  .tree-view .entry.directory:hover > .header {
+    margin-left: -17px;
+    padding-left: 17px;
+  }
+
+  .tree-view .file.selected .name,
+  .tree-view .entry.selected > .header .name {
+    color: @accent;
+  }
+
+  // --- Drag & drop: keep the accent inset-ring affordance ---
+  .tree-view .entry.directory.drag-over {
+    background: fade(@accent, 10%);
+    box-shadow: inset 0 0 0 1px @accent;
+    border-radius: 4px;
+  }
+
+  .tree-view .entry.directory.drag-over > .header .name,
+  .tree-view .entry.directory.drag-over > .header::before {
+    color: @accent;
+  }
+
+  // --- Folder count badge (collapsed folders; injected by tranquil-automations) ---
+  .tree-view .entry.directory > .header {
+    position: relative;
+  }
+
+  .tree-view .tranquil-folder-count {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(calc(-50% + 1px));
+    font-size: 11px;
+    font-weight: 400;
+    color: @text-muted;
+    pointer-events: none;
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Active folder (selected, or containing the selected sub-item): render the
+  // count as an accent pill to stand out from the plain muted counts.
+  .tree-view .tranquil-folder-count.is-pill {
+    right: 8px;
+    padding: 0 9px;
+    line-height: 15px;
+    border-radius: 8px;
+    background: @accent;
+    color: @text-inverse;
+    font-weight: 600;
+  }
+
+  // Reserve room so long names don't run under the badge.
+  .tree-view .entry.directory > .header .name {
+    padding-right: 22px;
+  }
+}

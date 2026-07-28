@@ -1,0 +1,77 @@
+// tranquil-business-light — semantic color tokens
+// Palette defines the light design-token contract.
+// Only this file differs between tranquil-business-light and -dark; every
+// partial is written against these names so the two packages share them.
+
+// Selector this theme scopes its rules under (interpolated as @{theme-scope}).
+@theme-scope: ~'.theme-tranquil-business-light';
+@color-scheme: light; // native controls (number-input steppers, etc.) render light
+
+// --- Surfaces ---
+@app-bg:         #FFFFFF; // editor / content surface
+@sidebar-bg:     #F7F6F3; // recessed: workspace bg, docks, tab-bar
+@panel-bg:       #FFFFFF; // panels, tabs (active), cards
+@surface-active: #EBEBEA; // raised/active: inputs, active list rows, badges
+@dialog-bg:      #FFFFFF; // modal / command palette
+@popover-bg:     #FFFFFF;
+@overlay:        rgba(0, 0, 0, 0.30);
+@shadow-popover: 0 8px 24px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(15, 23, 42, 0.08); // tooltips, popovers, notifications
+
+// --- Text ---
+@text-primary:   #37352F;
+@text-secondary: #787774;
+@text-muted:     #B4B4B4;
+@text-heading:   #37352F;
+@text-inverse:   #FFFFFF;
+
+// --- Borders ---
+@border:         #E9E9E7;
+@border-subtle:  #E9E9E7;
+@border-strong:  #D9D9D6;
+
+// --- Interaction states ---
+@hover:          #EBEBEA;
+@hover-subtle:   #F0F0EF;
+@selected:       #E8F4FE;
+
+// --- Accents ---
+@accent:         #155DFF;
+@accent-hover:   #0D4AD6;
+
+// Semantic accent roles (status, syntax)
+@green:          #38A169;
+@orange:         #D9730D;
+@red:            #E53E3E;
+@purple:         #805AD5;
+@yellow:         #D69E2E;
+@teal:           #319795;
+
+// Warning accent used by notifications override
+@tranquil-warning: #D9730D;
+
+// --- Terminal ANSI grayscale anchors (theme-appropriate; consumed by terminal.less) ---
+@ansi-black:        #37352F; // darkest — reads on the light background
+@ansi-bright-black: #787774; // dim gray (comments etc.)
+@ansi-white:        #9B9A97; // ANSI "white" as a mid gray so it stays visible on white
+@ansi-bright-white: #37352F; // brightest emphasis text
+
+// Reusable themed scrollbar (matches the reference mockups): thin, rounded
+// thumb. Applied per scroll-container under @{theme-scope} by the partials, so
+// theme priority + scope specificity win over package styles (no !important).
+.themed-scrollbar() {
+  scrollbar-color: @border-strong transparent;
+
+  &::-webkit-scrollbar { width: 10px; height: 10px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb {
+    background: @border-strong;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: @text-muted;
+    background-clip: padding-box;
+  }
+  &::-webkit-scrollbar-corner { background: transparent; }
+}

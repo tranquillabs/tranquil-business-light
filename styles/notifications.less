@@ -1,0 +1,72 @@
+// Notifications restyled to fit the editorial theme: a neutral card (panel
+// surface, border, soft shadow) with a palette-colored accent stripe + icon per
+// type, instead of the default saturated colored blocks. The container isn't
+// scoped by the package, so we match its specificity (the full
+// `atom-notifications atom-notification` chain + the theme class) and rely on
+// theme cascade priority to win — no !important.
+
+@import 'colors.less';
+
+@{theme-scope} {
+  // Upstream puts 1.2em (~16px) on the container, which reads oversized against
+  // the theme's 13px Inter body. Scale toasts to the mockup's secondary-text size.
+  atom-notifications {
+    font-size: 12px;
+  }
+
+  atom-notifications atom-notification {
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: @shadow-popover;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+
+    // Neutral card body.
+    .content {
+      background: @panel-bg;
+      color: @text-primary;
+    }
+
+    a { color: @accent; }
+
+    code {
+      background: @surface-active;
+      color: @text-primary;
+    }
+
+    // Keep the dismiss (×) clearly visible instead of core's faint 40% — our
+    // toasts are dismissable so the × is the primary "close now" affordance.
+    .close,
+    .close-all.btn {
+      color: @text-secondary;
+      opacity: 1;
+    }
+  }
+
+  // Per-type accent: the left icon stripe keeps a palette color.
+  atom-notifications atom-notification.info.icon:before {
+    background-color: @accent;
+    color: @text-inverse;
+  }
+  atom-notifications atom-notification.success.icon:before {
+    background-color: @green;
+    color: @text-inverse;
+  }
+  atom-notifications atom-notification.warning.icon:before {
+    background-color: @tranquil-warning;
+    color: @text-inverse;
+  }
+  atom-notifications atom-notification.error.icon:before,
+  atom-notifications atom-notification.fatal.icon:before {
+    background-color: @red;
+    color: @text-inverse;
+  }
+
+  // Inline code accent matches the type.
+  atom-notification.info .content code { color: @accent; }
+  atom-notification.success .content code { color: @green; }
+  atom-notification.warning .content code { color: @tranquil-warning; }
+  atom-notification.error .content code,
+  atom-notification.fatal .content code { color: @red; }
+}

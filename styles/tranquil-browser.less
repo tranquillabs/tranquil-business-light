@@ -1,0 +1,118 @@
+@{theme-scope} {
+  .url-bc {
+    padding: 4px;
+    background: @panel-bg;
+    height: 48px;
+  }
+
+  .nav-btns-left-bc,
+  .nav-btns-right-bc {
+    background: @sidebar-bg;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .nav-btns-left-bc {
+    border-radius: 4px 0 0 4px;
+    padding: 9px 0 9px 12px;
+  }
+
+  .nav-btns-right-bc {
+    border-radius: 0 4px 4px 0;
+    padding: 9px 12px 9px 0;
+  }
+
+  .nav-btns-bc {
+    height: 100%;
+  }
+
+  .input-url-bc {
+    display: flex;
+    background: @sidebar-bg;
+    padding: 4px 0;
+    height: 100%;
+  }
+
+  .input-url-bc input {
+    background: @panel-bg;
+    color: @text-primary;
+    height: 100%;
+    border: none;
+    padding: 0 8px;
+    border-radius: 4px;
+    margin: 0 8px;
+    font-size: 14px;
+    // Grow to fill the (already full-width) flex bar; otherwise the input sits
+    // at its default ~180px width and long file:// paths are clipped.
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .apm-browser-icon-wrapper {
+    height: 100%;
+    aspect-ratio: 1;
+  }
+
+  .apm-browser-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .apm-browser-icon-divider {
+    width: 2px;
+    height: 100%;
+    background: @border;
+  }
+
+  // Find-in-page pane item — colors from the design tokens (geometry lives in
+  // tranquil-browser/styles/tranquil-browser.less). Matches main-view.html's
+  // .form-input / .btn.
+  .tranquil-browser-find {
+    color: @text-primary;
+
+    .tranquil-browser-find-lead {
+      color: @text-secondary;
+
+      &:hover {
+        color: @text-primary;
+      }
+    }
+
+    .tranquil-browser-find-input {
+      background: @app-bg;
+      border-color: @border-strong;
+      color: @text-primary;
+
+      &::placeholder {
+        color: @text-muted;
+      }
+      &:focus {
+        border-color: @accent;
+      }
+    }
+
+    .tranquil-browser-find-count {
+      color: @text-muted;
+    }
+
+    // Distinct, filled icon buttons (design system .btn-secondary). !important
+    // overrides base.less's global `button { background: @surface-active }`.
+    .tranquil-browser-find-btn {
+      color: @text-primary;
+      background: @surface-active !important;
+      border-color: @border-strong;
+
+      &:hover {
+        background: @hover !important;
+        border-color: @border-strong;
+      }
+      &:active {
+        background: @selected !important;
+      }
+    }
+  }
+}

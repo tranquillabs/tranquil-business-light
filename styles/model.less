@@ -1,0 +1,141 @@
+@modal-width: 48rem;
+
+@{theme-scope} {
+  atom-panel-container.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  atom-panel.modal {
+    position: relative;
+    width: 100%;
+    max-width: @modal-width;
+    margin: 0 auto;
+    left: initial;
+    background-color: transparent;
+    padding: 1.5rem;
+
+    &.from-top {
+      margin-top: 22rem;
+      border-radius: 0.5rem;
+    }
+
+    atom-text-editor[mini] {
+      margin-bottom: 1.5rem;
+    }
+
+    .select-list ol.list-group,
+    &.select-list ol.list-group {
+      border: 1px solid @border;
+      border-radius: 0.5rem;
+      overflow-x: hidden;
+      overflow-y: auto;
+      gap: 0;
+
+      &:empty {
+        border: none;
+        margin-top: 0;
+      }
+
+      li {
+        padding: 0.5rem 1rem;
+        font-size: 13px;
+        border-bottom: 1px solid @border;
+
+        &:last-of-type {
+          border-bottom: none;
+        }
+
+        .icon::before {
+          margin-left: 1px;
+        }
+
+        .icon.status {
+          float: right;
+          margin-left: 0.5rem;
+
+          &:before {
+            margin-left: 0;
+            margin-right: 0;
+          }
+        }
+
+        &.selected {
+          background: @selected !important;
+
+          &.status.icon {
+            color: @accent;
+          }
+
+          &::before {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+
+    .select-list .key-binding {
+      margin-top: -1px;
+      margin-left: 0.5rem;
+      background-color: @accent;
+      color: @text-inverse;
+    }
+
+    .select-list .primary-line {
+      display: block;
+    }
+
+    & > * {
+      position: relative;
+    }
+
+    .command-palette {
+      padding: 1px;
+    }
+
+    // Container
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      background-color: @dialog-bg;
+      border-radius: 0.5rem;
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12), 0 1px 4px rgba(15, 23, 42, 0.10);
+    }
+
+    // Backdrop
+    &:after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      background: @overlay;
+      backface-visibility: hidden;
+    }
+  }
+
+  .modal .list-group li {
+    border-radius: 0 !important;
+  }
+
+  .modal .list-group li:hover {
+    background: @hover;
+  }
+
+  .from-top .command-palette .editor.mini {
+    background: @surface-active;
+  }
+
+  .primary-line {
+    color: @text-primary;
+  }
+}

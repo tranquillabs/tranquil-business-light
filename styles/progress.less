@@ -1,0 +1,13 @@
+@import 'colors.less';
+
+progress.notification {
+  width: 100%;
+  vertical-align: bottom;
+  border-radius: 0;
+  height: 6px;
+}
+
+progress.notification[value]::-webkit-progress-value {
+  background-color: @accent;
+  transition: width 2s ease;
+}
