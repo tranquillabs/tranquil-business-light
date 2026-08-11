@@ -15,6 +15,12 @@
   }
 
   atom-notifications atom-notification {
+    // Upstream fixes every toast at 450px; let them shrink-wrap to their text
+    // instead (short ones like "Already saved" get a small pill), capped a bit
+    // narrower than core. The min keeps one-word toasts reading as a toast.
+    width: auto;
+    min-width: 220px;
+    max-width: 400px;
     border-radius: 6px;
     overflow: hidden;
     box-shadow: @shadow-popover;
