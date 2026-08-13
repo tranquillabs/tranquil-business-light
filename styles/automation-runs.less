@@ -1,0 +1,11 @@
+// Automation Runs panel (bottom dock, from tranquil-automations). Theme its two scroll
+// containers — the run list and the selected run's output — to match the rest of the UI;
+// without this they fall back to the default light webkit scrollbar.
+@import 'colors.less'; // @{theme-scope} + .themed-scrollbar()
+
+@{theme-scope} {
+  .tranquil-runs-panel .runs-list,
+  .tranquil-runs-panel .run-output {
+    .themed-scrollbar();
+  }
+}

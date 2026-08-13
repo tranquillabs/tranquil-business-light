@@ -193,8 +193,12 @@ atom-workspace {
   }
 
   // --- Scrollbars ---
+  // The corner filler must hide alongside the bars — otherwise an editor that
+  // overflows on both axes still paints the 20x20 .scrollbar-corner, which shows
+  // as a bare white square once the surrounding scrollbars are gone.
   .vertical-scrollbar,
-  .horizontal-scrollbar {
+  .horizontal-scrollbar,
+  .scrollbar-corner {
     display: none;
   }
 
