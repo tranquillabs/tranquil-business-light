@@ -1,0 +1,11 @@
+// Debug pane (left dock, from tranquil-debug). Theme its scroll containers — the section bodies
+// and the console transcript — to match the rest of the UI; without this they fall back to the
+// default light webkit scrollbar.
+@import 'colors.less'; // @{theme-scope} + .themed-scrollbar()
+
+@{theme-scope} {
+  .tranquil-debug-panel .debug-section-body,
+  .tranquil-debug-panel .debug-console-output {
+    .themed-scrollbar();
+  }
+}
