@@ -7,6 +7,12 @@
     background: @sidebar-bg;
     box-shadow: none;
     gap: 4px !important;
+    // Mark the top of the pane the tabs belong to. Where a tab sits above the boundary its
+    // raised surface already reads as an edge, but the band beside the tabs is the same colour
+    // as the pane content below it (both @sidebar-bg in docks), so a pane with a short tab row
+    // — the Automation Runs panel especially — had no visible top at all and its pane controls
+    // floated in an unbounded field.
+    border-bottom: 1px solid @border-subtle;
   }
 
   .tab {
