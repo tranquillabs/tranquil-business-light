@@ -13,6 +13,25 @@
     // — the Automation Runs panel especially — had no visible top at all and its pane controls
     // floated in an unbounded field.
     border-bottom: 1px solid @border-subtle;
+
+    // Keep the tab row's overflow inside the tab row. `.tab-bar` is a flex row whose
+    // tabs floor at `min-width: 40px` (+ our 4px gap), so past ~20 tabs the row is
+    // wider than the pane. Left at the default `overflow: visible` that spill escapes
+    // upward — `atom-pane`, the pane axes and `atom-workspace-axis` none of them clip —
+    // until it reaches `atom-workspace`, which is `overflow: hidden` and therefore a
+    // scroll container with no scrollbar. `TabBarView.setActiveTab` then calls
+    // `scrollIntoView(false)` on the newly-activated tab and Chromium satisfies it by
+    // scrolling the ENTIRE WORKSPACE sideways: the tree-view slides off the left edge,
+    // the tab row paints over the right dock, and nothing ever scrolls it back.
+    // Wrapping ctrl-shift-tab from the first tab to the last is the longest jump and so
+    // the usual way it shows up. Scrolling the row itself is also what upstream does —
+    // one-dark-ui/one-light-ui carry these exact three declarations.
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .tab {
